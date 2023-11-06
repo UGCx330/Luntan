@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzh.luntan.mapper.PostMapper">
+    <sql id="allFileds">id,user_id,title,content,type,status,create_time,comment_count,score,image,video_url,iframe,plate</sql>
+    <sql id="exceptIdFileds">user_id,title,content,type,status,create_time,comment_count,score,image,video_url,iframe,plate</sql>
+
+    <insert id="addPost" parameterType="Post" keyProperty="id">
+        insert into discuss_post(<include refid="exceptIdFileds"></include>)
+        values(#{userId},#{title},#{content},#{type},#{status},#{createTime},#{commentCount},#{score},#{image},#{videoUrl},#{iframe},#{plate})
+    </insert>
+
+    <update id="updateCommentCount" parameterType="int">
+        update discuss_post
+        set comment_count=#{count}
+        where id = #{entityId}
+    </update>
+
+    <update id="updateType" parameterType="int">
+        update discuss_post
+        set type=#{type}
+        where id = #{postId}
+    </update>
+
+    <update id="updateStatus" parameterType="int">
+        update discuss_post
+        set status=#{status}
+        where id = #{postId}
+    </update>
+
+    <update id="updateScore">
+        update discuss_post
+        set score=#{score}
+        where id = #{postId}
+    </update>
+
+    <select id="selectPost" resultType="Post">
+        select <include refid="allFileds"></include> from discuss_post
+        where status !=2
+        <if test="userId!=0">
+            and user_id=#{userId}
+        </if>
+        <if test="plate!=0">
+            and plate like concat('%',#{plate},'%')
+        </if>
+        <if test="orderMode==1">
+            order by type desc,score desc, create_time desc
+        </if>
+        <if test="orderMode==0">
+            order by type desc, create_time desc
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="postCounts" resultType="int">
+        select count(*) from discuss_post
+        where status !=2
+        <if test="userId!=0">
+            and user_id=#{userId}
+        </if>
+        <if test="plate!=0">
+            and plate like concat ('%',#{plate},'%')
+        </if>
+    </select>
+
+    <select id="selectPostById" resultType="Post">
+        select <include refid="allFileds"></include> from discuss_post where id=#{postId}
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="http://ryytohejj.hb-bkt.clouddn.com/%E9%98%BF%E7%BD%97%E7%BA%B3.jpg"/>
+    <title>白小恒论坛-忘记密码</title>
+</head>
+<body>
+	<div>
+		<p>
+			<b th:utext="${email}">xxx@xxx.com</b>, 您好!
+		</p>
+		<p>
+			警告！！！！！！！！！！！！！
+			您正在找回白小恒论坛账号的密码, 本次操作的验证码为 <b th:utext="${kaptcha}" style="color: #ff6547">u5s6dt</b> 。
+			若非本人操作请忽略！！！
+			有效时间5分钟, 请您及时进行操作!
+		</p>
+	</div>
+</body>
+</html>

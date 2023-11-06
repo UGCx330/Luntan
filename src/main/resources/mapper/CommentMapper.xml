@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzh.luntan.mapper.CommentMapper">
+    <sql id="allFields">id,user_id,entity_type,entity_id,target_id,content,status,create_time</sql>
+    <sql id="addFields">user_id,entity_type,entity_id,target_id,content,status,create_time</sql>
+
+    <insert id="addComment" keyProperty="id" useGeneratedKeys="true">
+        insert into comment (<include refid="addFields"></include>) values
+        (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
+    </insert>
+
+    <select id="selectCommentCount" resultType="java.lang.Integer">
+        select count(*)
+        from comment
+        where status = 0
+          and entity_type = #{entityType}
+          and entity_id = #{entityId}
+    </select>
+
+    <select id="selectComment" resultType="com.zzh.luntan.entity.Comment">
+        select <include refid="allFields"></include> from comment
+        where entity_type=#{entityType} and entity_id=#{entityId} and status=0
+        order by create_time asc
+        limit #{offSet},#{limit}
+    </select>
+
+    <select id="selectCommentById" resultType="com.zzh.luntan.entity.Comment">
+        select
+        <include refid="allFields"></include>
+        from comment where id=#{commentId}
+    </select>
+
+    <select id="selectCommentByUserId" resultType="com.zzh.luntan.entity.Comment">
+        select
+        <include refid="allFields"></include>
+        from comment
+        where status=0
+        and user_id=#{userId}
+        order by create_time desc
+        limit #{offSet},#{limit}
+    </select>
+
+    <select id="selectCommentCountByUserId" resultType="java.lang.Integer">
+        select count(*)
+        from comment
+        where status = 0
+          and user_id = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="http://ryytohejj.hb-bkt.clouddn.com/%E9%98%BF%E7%BD%97%E7%BA%B3.jpg"/>
+    <title>白小恒论坛-激活账号</title>
+</head>
+<body>
+<div>
+    <p>
+        <b th:utext="${email}">xxx@xxx.com</b>, 您好!
+    </p>
+    <p>
+        您正在注册白小恒论坛网, 这是一封激活邮件,
+        <a th:href="@{${target}}">请点击此处</a>,
+        激活您的账号!
+    </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+.profile-card { /*主卡片*/
+    height: 50%;
+    width: 40%;
+    position: relative; /*相对定位*/
+    overflow: hidden; /*溢出隐藏*/
+    text-align: center; /*文字居中*/
+    /*box-shadow: 0 0 10px #00000070; !**!*/
+    padding: 5px 0 0 0;
+    border-radius: 10px;
+}
+
+.top-section { /*上部*/
+    padding: 60px 40px;
+    /*background: rgb(255, 255, 255);*/
+
+    background-image: linear-gradient(0deg,
+    rgba(247, 247, 247, 0.54) 23.8%,
+    rgba(13, 236, 252, 0.34));
+}
+
+.message, .notif { /*上部两个图标*/
+    position: absolute; /*绝对定位*/
+    top: 40px; /*距上部*/
+    font-size: 20px;
+    cursor: pointer; /*鼠标样式*/
+    color: #ffffff50; /*颜色*/
+}
+
+.message {
+    right: 40px;
+}
+
+.notif {
+    left: 40px;
+}
+
+.pic {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto auto 20px auto;
+    padding: 4px;
+    border: 2px solid #6a89cc; /*边框*/
+    border-radius: 50%; /*圆角*/
+}
+
+.pic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.pic::before { /*之前添加*/
+    content: ""; /*内容*/
+    width: 100%;
+    height: 100%;
+    position: absolute; /*绝对定位*/
+    border: 1px solid #3c6382;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    border-radius: 50%;
+    animation: wava 1.5s infinite linear; /*动画 无限重复 */
+}
+
+@keyframes wava {
+    to {
+        transform: scale(1.5); /*放大*/
+        opacity: 0; /*透明度*/
+    }
+}
+
+.name {
+    color: #6500f6; /*字体颜色*/
+    font-size: 28px; /*字体大小*/
+    letter-spacing: 2px; /*字符间距*/
+    text-transform: uppercase; /*字体大写*/
+}
+
+.tag {
+    font-size: 15px;
+    color: #222;
+}
+
+.bottom-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 60px 40px;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.border { /*竖线*/
+    width: 1px;
+    height: 20px;
+    background: #bbb;
+    margin: 0 30px;
+}
+
+.bottom-section span {
+    font-size: 14px;
+    display: block;
+}
+
+.social-media {
+    font-size: 18px;
+    position: absolute;
+    width: 100%;
+    top: -30px;
+    left: 0;
+    z-index: 1; /*z轴定位*/
+}
+
+.social-media i {
+    width: 60px;
+    height: 60px;
+    background: #2980b9;
+    border-radius: 50%;
+    color: #f1f1f1;
+    font-size: 10px;
+    line-height: 60px !important; /*行高*/
+    margin: 0 10px;
+    position: relative;
+}
+
+.social-media i::after { /*之后添加*/
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border: 1px solid #e74c3c;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    border-radius: 50%;
+    z-index: -1;
+    transform: scale(0.99);
+    transition: 0.4s linear;
+}
+
+.social-media i:hover:after { /*悬停时*/
+    transform: scale(1.4); /*放大*/
+    opacity: 0;
+}
+
+.followBtn {
+    top: 1%;
+    left: 90%;
+    position: absolute;
+}
+
+.letterBtn {
+    top: 1%;
+    left: 10%;
+    position: absolute;
+}
+
+/*相册-------------------------------------------------------------------------*/
+.shell {
+    left: 44.25%;
+    top: 5.5%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    /*padding: 130px 0;*/
+}
+
+.carousel {
+    position: relative;
+    width: 570px;
+    height: 500px;
+    padding-top: 150px;
+    perspective: 300px;
+}
+
+.arrows {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    right: 0px;
+}
+
+.up,
+.next {
+    margin: 5px 0;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(52, 227, 61, 0.81);
+    transition: .3s;
+}
+
+.up:hover,
+.next:hover {
+    background-color: rgba(255, 255, 255, 0);
+    color: #9795f0;
+}
+
+.boxs {
+    width: 100%;
+    height: 210px;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: 1s;
+}
+
+.box {
+    position: absolute;
+    width: 480px;
+    height: 216px;
+    border: 2px solid white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.box img {
+    width: 100%;
+    transform: translateY(-50px);
+    opacity: 0.97;
+}
+
+.box.selected {
+    border-color: rgba(10, 209, 229, 0.32);
+    border-width: 4px;
+    opacity: 1;
+}
+
+@font-face {
+    font-family: "iconfont"; /* Project id  */
+    src: url('http://localhost:8080/css/iconfont.ttf?t=1697001849953') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiajiantou:before {
+    content: "\eb6d";
+}
+
+.icon-shangjiantou:before {
+    content: "\eb6e";
+}
+
+/*上传相册按钮*/
+.uploadPhoto {
+    left: 82.5%;
+    top: 16%;
+    position: absolute;
+}
+
+/*上传音乐按钮*/
+.uploadMusic {
+    left: 19.5%;
+    top: 68%;
+    position: absolute;
+}
+
+/*音乐播放器------------------------------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+
+.music-container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 10px 0 rgba(8, 182, 212, 0.5);
+    display: flex;
+    /*padding: 20px 30px;*/
+    /*position: relative;*/
+    margin: 50px 0 0 0;
+    z-index: 10;
+    /*top: 40%;*/
+    /*width: 38%;*/
+}
+
+.musicDiv {
+    position: relative;
+    top: 40%;
+    width: 38%;
+    height: 65px;
+}
+
+.img-container {
+    position: relative;
+    width: 110px;
+}
+
+
+.img-container img {
+    border-radius: 50%;
+    height: 110px;
+    width: inherit;
+    object-fit: cover;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* 封面360°旋转，默认不动 */
+    animation: rotate 10s linear infinite;
+    animation-play-state: paused;
+    filter: opacity(0.87);
+}
+
+.music-container.play .img-container img {
+    /* 播放 */
+    animation-play-state: running;
+}
+
+/* 定义旋转动画 */
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.action-btn {
+    /* 取消默认样式 */
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.47);
+    /* ----- */
+    color: rgba(13, 236, 252, 0.63);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 0 20px;
+}
+
+.action-btn:focus {
+    /* 取消默认样式 */
+    outline: 0;
+}
+
+.action-btn.action-btn-big {
+    color: #0cdae9;
+    font-size: 30px;
+}
+
+.music-info {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    /* 父元素宽度-40px */
+    width: calc(100% - 40px);
+    background-color: rgba(10, 209, 229, 0.03);
+    border-radius: 15px 15px 0 0;
+    padding: 10px 10px 10px 150px;
+    /* 没播放时默认隐藏 */
+    opacity: 0;
+    transform: translateY(0%);
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+    z-index: 0;
+}
+
+.music-info h4 {
+    /* 取消默认边距 */
+    margin: 0;
+}
+
+.music-container.play .music-info {
+    opacity: 1;
+    transform: translateY(-100%);
+}
+
+
+.progress-container {
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    height: 4px;
+    width: 100%;
+}
+
+.progress {
+    background-color: #0decfc;
+    border-radius: 5px;
+    height: 100%;
+    /* 一开始进度条长度为0 */
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/*注册时间--------------------------------------------------------------------*/
+.registerTime {
+    left: 22.5%;
+    top: 70%;
+    position: absolute;
+}
+
+/*选择音乐按钮-----------------------------------------------------------------------------*/
+/*隐藏原input*/
+.upload-btn {
+    display: none;
+}
+
+.videoDiv {
+    position: absolute;
+    height: 289.7px;
+    width: 32.5%;
+    top: 49.5%;
+    left: 46%;
+}
+
+.videoDiv video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border: 1px solid rgba(10, 209, 229, 0.41); /* 边框大小、颜色 */
+
+    border-radius: 5px; /* 边框圆角 */
+
+    box-shadow: 0 0 5px rgba(10, 209, 229, 0.5); /* 边框阴影 */
+}
+
+/*上传视频按钮*/
+.uploadVideo {
+    left: 82.5%;
+    top: 68%;
+    position: absolute;
+}
+
+/*上传背景图按钮*/
+.uploadBack {
+    top: 16%;
+    position: absolute;
+    left: 19.5%;
+}
+
+/*外侧卡片-----------------------------------------------------------------------*/
+.main .container {
+    background: rgba(255, 255, 255, 0.58);
+    padding: 20px;
+    height: 100%;
+}
+

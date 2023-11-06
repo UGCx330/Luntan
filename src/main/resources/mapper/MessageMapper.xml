@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzh.luntan.mapper.MessageMapper">
+    <sql id="allFields">id,from_id,to_id,conversation_id,content,status,create_time</sql>
+    <sql id="insertFields">
+        from_id, to_id, conversation_id, content, status, create_time
+    </sql>
+
+    <!-- 查询某用户与所有其他用户的所有会话(最新一条消息)，且分页-->
+    <select id="selectLastOAllConversation" resultType="com.zzh.luntan.entity.Message">
+        select
+        <include refid="allFields"></include>
+        from message
+        where id in (select max(id)
+        from message
+        where status != 2 and from_id!=1 and (from_id = #{userId}
+        or to_id = #{userId})
+        group by conversation_id) order by id desc limit #{offset},#{limit}
+    </select>
+
+    <!--查询某会话的所有私信，且分页-->
+    <select id="selectLettersOfConversation" resultType="com.zzh.luntan.entity.Message">
+        select
+        <include refid="allFields"></include>
+        from message where conversation_id=#{conversationId}
+        and from_id !=1 and status !=2
+        order by id desc
+        limit #{offset},#{limit}
+    </select>
+
+    <!--查询某会话的私信条数,分页使用，且需要显示在页面-->
+    <select id="lettersCountOfConversation" resultType="java.lang.Integer">
+        select count(id)
+        from message
+        where status != 2
+          and from_id != 1
+          and conversation_id = #{conversationId}
+    </select>
+
+    <!--查询某用户的所有会话数量，分页使用-->
+    <select id="conversationCount" resultType="java.lang.Integer">
+        select count(a.maxid)
+        from (select max(id) as maxid
+              from message
+              where status != 2
+                and from_id != 1
+                and (from_id = #{userId} or to_id = #{userId})
+              group by conversation_id) as a
+    </select>
+
+    <!--查询未读消息数量(所有未读或者某会话未读)-->
+    <select id="unreadCount" resultType="java.lang.Integer">
+        select count(id)
+        from message
+        where status = 0 and from_id !=1 and to_id=#{userId}
+        <if test="conversationId!=null">and conversation_id=#{conversationId}</if>
+    </select>
+
+    <!--查找某人某类通知的最新一条消息-->
+    <select id="selectLatestOfTopic" resultType="com.zzh.luntan.entity.Message">
+        select
+        <include refid="allFields"></include>
+        from message
+        where id in( select
+        max(id)
+        from message
+        where status!=2
+        and from_id=1
+        and to_id =#{userId}
+        and conversation_id=#{topic})
+    </select>
+
+    <!--当前某人类通知消息总数-->
+    <select id="selectTopicAllCount" resultType="java.lang.Integer">
+        select count(id)
+        from message
+        where status != 2
+          and from_id = 1
+          and to_id = #{userId}
+          and conversation_id = #{topic}
+    </select>
+
+    <!--查看某人通知未读数量（传入topic-某topic未读，不传-所有topic未读）-->
+    <select id="selectUnreadCountOfTopic" resultType="java.lang.Integer">
+        select count(id)
+        from message
+        where status = 0
+        and from_id = 1
+        and to_id = #{userId}
+        <if test="topic!=null">
+            and conversation_id = #{topic}
+        </if>
+    </select>
+
+    <!--查询某人某主题的通知列表,分页-->
+    <select id="selectTopicList" resultType="com.zzh.luntan.entity.Message">
+        select
+        <include refid="allFields"></include>
+        from message
+        where status!=2
+        and from_id=1
+        and to_id=#{userId}
+        and conversation_id=#{topic}
+        order by create_time desc
+        limit #{offset},#{limit}
+    </select>
+
+
+    <!--发送私信后插入私信，返回插入的私信id-->
+    <insert id="addMessage" parameterType="Message" keyProperty="id">
+        insert into message (<include refid="insertFields"></include>)
+        values (#{fromId},#{toId},#{conversationId},#{content},#{status},#{createTime})
+    </insert>
+
+
+    <!--更新私信未读状态为已读,返回更新条数-->
+    <update id="updateStatusOfMessage">
+        update message set status=#{status} where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+</mapper>
